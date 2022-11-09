@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:14
+    ports:
+      - 5055:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - prisma_playground:/var/lib/postgresql/data
+    container_name: prisma_playground_postgres
+volumes:
+  prisma_playground: {}
