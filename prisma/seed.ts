@@ -2,48 +2,59 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const genDaysLaterDate = (days: number): Date => {
-  let dt = new Date();
-
-  dt.setDate(dt.getDate() + days);
-
-  return dt;
-};
-
 async function main() {
-  for (let i = 0; i < 13; i++) {
-    await prisma.sample.create({
+  for (let i = 0; i < 5; i++) {
+    await prisma.groupbySample.create({
       data: {
-        title: `[created by first roop] not two weeks later ${i}`,
-        deadline: genDaysLaterDate(i),
+        user: "hoge",
       },
     });
   }
 
-  // create record deadline is two weeks later
-  for (let i = 0; i < 3; i++) {
-    await prisma.sample.create({
+  for (let i = 0; i < 5; i++) {
+    await prisma.groupbySample.create({
       data: {
-        title: `[created by first roop] two weeks later ${i}`,
-        deadline: genDaysLaterDate(14),
+        user: "huga",
       },
     });
   }
 
-  for (let i = 20; i < 20; i++) {
-    await prisma.sample.create({
+  for (let i = 0; i < 5; i++) {
+    await prisma.groupbySample.create({
       data: {
-        title: `[created by second roop] not two weeks later ${i}`,
-        deadline: genDaysLaterDate(i),
+        user: "kir",
       },
     });
   }
 
   for (let i = 0; i < 3; i++) {
-    await prisma.sample.create({
+    await prisma.groupbySample.create({
       data: {
-        title: `[created by second roop] two weeks later ${i}`,
-        deadline: genDaysLaterDate(14),
+        user: "hoge",
+      },
+    });
+  }
+
+  for (let i = 0; i < 5; i++) {
+    await prisma.groupbySample.create({
+      data: {
+        user: "pure",
+      },
+    });
+  }
+
+  for (let i = 0; i < 2; i++) {
+    await prisma.groupbySample.create({
+      data: {
+        user: "bob",
+      },
+    });
+  }
+
+  for (let i = 0; i < 2; i++) {
+    await prisma.groupbySample.create({
+      data: {
+        user: "kir",
       },
     });
   }

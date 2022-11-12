@@ -19,17 +19,13 @@ const twoWeeksDate = () => {
 };
 
 async function main() {
-  const allSamples = await prisma.sample.findMany({
-    where: {
-      deadline: {
-        lt: genDaysLaterDate(twoWeeksDate(), 1),
-        gt: genDaysLaterDate(twoWeeksDate(), -1),
-      },
-    },
+  const allSamples = await prisma.groupbySample.groupBy({
+    by: ["user"],
+    _count: { user: true },
   });
 
   console.log(allSamples);
-  // await prisma.sample.deleteMany();
+  // await prisma.groupbySample.deleteMany();
 }
 
 main()
