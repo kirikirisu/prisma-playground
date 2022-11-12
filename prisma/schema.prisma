@@ -15,3 +15,8 @@ model Sample {
   title String
   deadline DateTime
 }
+
+model GroupbySample {
+  id Int @id @default(autoincrement())
+  user String
+}
