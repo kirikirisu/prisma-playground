@@ -2,34 +2,20 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const genDaysLaterDate = (today: Date, days: number) => {
-  today.setDate(today.getDate() + days);
-  console.log("gen", today);
-
-  return today;
-};
-
-const twoWeeksDate = () => {
-  let dt = new Date();
-
-  dt.setDate(dt.getDate() + 14);
-  console.log("today", dt);
-
-  return dt;
-};
-
 async function main() {
-  const allSamples = await prisma.sample.findMany({
+  const middleList = await prisma.middleTable.findMany({
+    take: 3,
     where: {
-      deadline: {
-        lt: genDaysLaterDate(twoWeeksDate(), 1),
-        gt: genDaysLaterDate(twoWeeksDate(), -1),
-      },
+      userId: 9,
+      bookId: 5,
+    },
+    include: {
+      user: true,
+      book: true,
     },
   });
 
-  console.log(allSamples);
-  // await prisma.sample.deleteMany();
+  console.log("middlelist", middleList);
 }
 
 main()
