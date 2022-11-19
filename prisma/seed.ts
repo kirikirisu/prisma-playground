@@ -1,51 +1,33 @@
-import { PrismaClient } from "@prisma/client";
+import { Book, MiddleTable, PrismaClient, User } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
-const genDaysLaterDate = (days: number): Date => {
-  let dt = new Date();
+const createRandomUser = (): Omit<User, "id"> => ({
+  name: faker.internet.userName(),
+  email: faker.internet.email(),
+});
 
-  dt.setDate(dt.getDate() + days);
+const createRandomBook = (): Omit<Book, "id"> => ({
+  title: faker.animal.cat(),
+  author: faker.company.name(),
+});
 
-  return dt;
-};
+const createMiddleTable = (): Omit<MiddleTable, "id"> => ({
+  userId: faker.datatype.number({ min: 1, max: 10 }),
+  bookId: faker.datatype.number({ min: 1, max: 10 }),
+  description: faker.random.word(),
+});
 
 async function main() {
-  for (let i = 0; i < 13; i++) {
-    await prisma.sample.create({
-      data: {
-        title: `[created by first roop] not two weeks later ${i}`,
-        deadline: genDaysLaterDate(i),
-      },
-    });
+  for (let i = 0; i < 10; i++) {
+    await prisma.user.create({ data: createRandomUser() });
   }
-
-  // create record deadline is two weeks later
-  for (let i = 0; i < 3; i++) {
-    await prisma.sample.create({
-      data: {
-        title: `[created by first roop] two weeks later ${i}`,
-        deadline: genDaysLaterDate(14),
-      },
-    });
+  for (let i = 0; i < 10; i++) {
+    await prisma.book.create({ data: createRandomBook() });
   }
-
-  for (let i = 20; i < 20; i++) {
-    await prisma.sample.create({
-      data: {
-        title: `[created by second roop] not two weeks later ${i}`,
-        deadline: genDaysLaterDate(i),
-      },
-    });
-  }
-
-  for (let i = 0; i < 3; i++) {
-    await prisma.sample.create({
-      data: {
-        title: `[created by second roop] two weeks later ${i}`,
-        deadline: genDaysLaterDate(14),
-      },
-    });
+  for (let i = 0; i < 20; i++) {
+    await prisma.middleTable.create({ data: createMiddleTable() });
   }
 }
 
